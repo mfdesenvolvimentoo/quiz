@@ -1,3 +1,5 @@
+import questions from "./perguntas.js";
+
 const question = document.querySelector(".question");
 const answers = document.querySelector(".answers");
 const spnQtd = document.querySelector(".spnQtd");
@@ -5,8 +7,6 @@ const textFinish = document.querySelector(".finish span");
 const content = document.querySelector(".content");
 const contentFinish = document.querySelector(".finish");
 const btnRestart = document.querySelector(".finish button");
-
-import questions from "./perguntas.js";
 
 let currentIndex = 0;
 let questionsCorrect = 0;
@@ -19,6 +19,13 @@ btnRestart.onclick = () => {
   questionsCorrect = 0;
   loadQuestion();
 };
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]; // troca elementos
+  }
+}
 
 function nextQuestion(e) {
   const isCorrect = e.target.getAttribute("data-correct") === "true";
@@ -69,6 +76,9 @@ function loadQuestion() {
 
   // Adiciona a imagem ao DOM
   question.appendChild(img);
+
+  // Embaralha as alternativas antes de exibi-las
+  shuffle(item.answers);
 
   item.answers.forEach((answer) => {
     const button = document.createElement("button");
